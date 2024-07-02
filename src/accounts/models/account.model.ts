@@ -1,3 +1,4 @@
+import { InferAttributes, InferCreationAttributes } from 'sequelize';
 import {
   Table,
   Column,
@@ -8,8 +9,11 @@ import {
   DeletedAt,
 } from 'sequelize-typescript';
 
-@Table({tableName: 'accounts'})
-export class Account extends Model<Account> {
+@Table({ tableName: 'accounts' })
+export class Account extends Model<
+  InferAttributes<Account>,
+  InferCreationAttributes<Account>
+> {
   @Column({
     type: DataType.INTEGER,
     autoIncrement: true,

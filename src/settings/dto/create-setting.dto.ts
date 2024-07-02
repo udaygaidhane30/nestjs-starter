@@ -5,7 +5,7 @@ import {
   IsInt,
   IsPositive,
 } from 'class-validator';
-import { DataType } from '../enums/data-type.enum';
+import { DataType } from '../../constants/data-type.enum';
 
 export class CreateSettingDto {
   @IsString()
@@ -13,7 +13,6 @@ export class CreateSettingDto {
   readonly name: string;
 
   @IsEnum(DataType)
-  @IsNotEmpty()
   readonly data_type: DataType;
 
   @IsInt()

@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Setting } from './models/setting.model';
 import { CreateSettingDto } from './dto/create-setting.dto';
 import { UpdateSettingDto } from './dto/update-setting.dto';
+import { DataType } from '../constants/data-type.enum';
 
 @Injectable()
 export class SettingsService {
@@ -15,12 +16,15 @@ export class SettingsService {
     private settingModel: typeof Setting,
   ) {}
 
-  private validateValue(dataType: string, value: any): string {
+  private validateValue(
+    dataType: DataType,
+    value: string | number | boolean | object,
+  ): string {
     if (dataType !== typeof value) {
       throw new BadRequestException('Value does not match data type');
     }
     const validatedValue =
-      dataType == 'object' ? JSON.stringify(value) : value.toString();
+      dataType == DataType.JSON ? JSON.stringify(value) : value.toString();
     return validatedValue;
   }
 
@@ -44,9 +48,12 @@ export class SettingsService {
     if (!setting) {
       throw new NotFoundException('Setting not found');
     }
-
-    const value = this.validateValue(updateSettingDto.data_type, updateSettingDto.value);
     if (updateSettingDto.value) {
+      const value = this.validateValue(
+        updateSettingDto.data_type,
+        updateSettingDto.value,
+      );
+
       updateSettingDto = {
         ...updateSettingDto,
         value,

@@ -1,3 +1,4 @@
+import { InferAttributes, InferCreationAttributes } from 'sequelize';
 import {
   Table,
   Column,
@@ -11,7 +12,10 @@ import {
 import { Account } from 'src/accounts/models/account.model';
 
 @Table({ tableName: 'settings', paranoid: true })
-export class Setting extends Model<Setting> {
+export class Setting extends Model<
+  InferAttributes<Setting>,
+  InferCreationAttributes<Setting>
+> {
   @Column({
     type: DataType.INTEGER,
     autoIncrement: true,

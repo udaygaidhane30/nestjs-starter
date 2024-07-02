@@ -33,7 +33,7 @@ export class SettingsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number): Promise<void> {
+  remove(@Param('id',ParseIntPipe) id: number): Promise<void> {
     return this.settingsService.remove(id);
   }
 }
