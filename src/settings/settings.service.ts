@@ -16,11 +16,7 @@ export class SettingsService {
   ) {}
 
   private validateValue(dataType: string, value: any): void {
-    if (
-      (dataType === 'boolean' && typeof value !== 'boolean') ||
-      (dataType === 'string' && typeof value !== 'string') ||
-      (dataType === 'number' && typeof value !== 'number')
-    ) {
+    if ( dataType !== typeof value) {
       throw new BadRequestException('Value does not match data type');
     }
   }

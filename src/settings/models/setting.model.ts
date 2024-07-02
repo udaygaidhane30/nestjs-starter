@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { Account } from 'src/accounts/models/account.model';
 
-@Table({ paranoid: true })
+@Table({ tableName: 'settings', paranoid: true })
 export class Setting extends Model<Setting> {
   @Column({
     type: DataType.INTEGER,

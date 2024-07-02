@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { SettingsService } from './settings.service';
 import { CreateSettingDto } from './dto/create-setting.dto';
@@ -25,7 +26,7 @@ export class SettingsController {
 
   @Put(':id')
   update(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateSettingDto: UpdateSettingDto,
   ): Promise<Setting> {
     return this.settingsService.update(id, updateSettingDto);
