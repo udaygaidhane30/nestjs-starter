@@ -15,17 +15,23 @@ export class SettingsService {
     private settingModel: typeof Setting,
   ) {}
 
-  private validateValue(dataType: string, value: any): void {
-    if ( dataType !== typeof value) {
+  private validateValue(dataType: string, value: any): string {
+    if (dataType !== typeof value) {
       throw new BadRequestException('Value does not match data type');
     }
+    const validatedValue =
+      dataType == 'object' ? JSON.stringify(value) : value.toString();
+    return validatedValue;
   }
 
   async create(createSettingDto: CreateSettingDto): Promise<Setting> {
-    this.validateValue(createSettingDto.data_type, createSettingDto.value);
+    const value = this.validateValue(
+      createSettingDto.data_type,
+      createSettingDto.value,
+    );
     return this.settingModel.create({
       ...createSettingDto,
-      value: createSettingDto.value.toString(),
+      value,
     });
   }
 
@@ -39,11 +45,11 @@ export class SettingsService {
       throw new NotFoundException('Setting not found');
     }
 
-    this.validateValue(updateSettingDto.data_type, updateSettingDto.value);
+    const value = this.validateValue(updateSettingDto.data_type, updateSettingDto.value);
     if (updateSettingDto.value) {
       updateSettingDto = {
         ...updateSettingDto,
-        value: updateSettingDto.value.toString(),
+        value,
       };
     }
     await setting.update(updateSettingDto);
