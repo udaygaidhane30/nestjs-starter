@@ -20,5 +20,5 @@ export class CreateSettingDto {
   readonly account_id: number;
 
   @IsNotEmpty()
-  readonly value: string;
+  readonly value: string | number | boolean | object;
 }
