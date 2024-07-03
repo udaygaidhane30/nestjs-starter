@@ -48,18 +48,13 @@ export class SettingsService {
     if (!setting) {
       throw new NotFoundException('Setting not found');
     }
-    if (updateSettingDto.value) {
-      const value = this.validateValue(
-        updateSettingDto.data_type,
-        updateSettingDto.value,
-      );
+    const value = this.validateValue(
+      updateSettingDto.data_type,
+      updateSettingDto.value,
+    );
 
-      updateSettingDto = {
-        ...updateSettingDto,
-        value,
-      };
-    }
-    await setting.update(updateSettingDto);
+    const updatedValue = {value, data_type: updateSettingDto.data_type};
+    await setting.update(updatedValue);
 
     return setting;
   }
